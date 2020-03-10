@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-​
+
 <head>
   <meta charset="UTF-8">
   <title>Star Wars - Express</title>
@@ -9,24 +9,19 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  
-​   
+
 </head>
-​
+
 <body>
-​
   <div class="container">
     <div class="jumbotron">
       <h1>Star Wars Express</h1>
-      <a href="/add"><button class="btn btn-danger btn-lg"><span class="fa fa-plus"></span> Add New Character</button></a>
       <h3>The greatest resource in the galaxy for Star Wars statistics!</h3>
       <hr>
-      <button class="btn btn-danger btn-lg"><span class="fa fa-plus"></span> Add New Character</button>
+      <a href="/add"><button class="btn btn-danger btn-lg"><span class="fa fa-plus"></span> Add New Character</button></a>
     </div>
     <div class="row">
-​
       <div class="col-12">
-​
         <div class="card mb-4">
           <div class="card-header">
             <h3><strong>Character Search</strong></h3>
@@ -40,7 +35,6 @@
             </div>
           </div>
         </div>
-​
         <div class="card">
           <div class="card-header">
             <h3><strong>Character Statistics</strong></h3>
@@ -48,42 +42,40 @@
           <div class="card-body">
             <h2 id="name"></h2>
             <div id="stats">
-              <h3><strong></strong> <span id="role">Jedi Master</span></h3>
-              <h3><strong></strong> <span id="age"></span></h3>
-              <h3><strong></strong> <span id="force-points"></span></h3>
+              <h3><strong>Role:</strong> <span id="role"></span></h3>
+              <h3><strong>Age:</strong> <span id="age"></span></h3>
+              <h3><strong>Force Points:</strong> <span id="force-points"></span></h3>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-​
   <script type="text/javascript">
-    $("#search-btn").on("click",(){
-        $("#name").empty();
-        $("#stats").empty();
-        let searchedCharacter = $("character-search").val().trim();
-       //searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
-       searchedCharacter = searchedCharacter.split(" ").join("").toLowerCase();
-        $.get("api/characters/" + searchedCharacter, (data)=>{
-            if(data.routeName){
-                console.log(data);
-                $("#stats").show();
-                $("#name").text(data.name);
-                $("#role").text(data.role);
-                $("#age").text(data.age);
-                $("#forcePoints").text(data.forcePoints);
+    $("#search-btn").on("click", () => {
+      let searchedCharacter = $("#character-search").val().trim();
 
-            } else {
-                console.log("not found");
-                $("#name").text("The force is not strong with this one. your character is not found.");
-            }
-        
-        })
-    })
-​
+      // searchedCharacter = searchedCharacter.replace(/\s+/g, "").toLowerCase();
+      searchedCharacter = searchedCharacter.split(" ").join("").toLowerCase();
+
+      $.get("/api/characters/" + searchedCharacter, (data) => {
+        if(data.routeName) {
+          console.log(data);
+          $("#stats").show();
+          $("#name").text(data.name);
+          $("#role").text(data.role);
+          $("#age").text(data.age);
+          $("#force-points").text(data.forcePoints);
+        } else {
+          console.log("not found");
+          $("#name").text("The force is not strong with this one. You character was not found.");
+          $("#stats").hide();
+        }
+      });
+
+    });
   </script>
-​
+
 </body>
-​
+
 </html>
